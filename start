@@ -1,0 +1,4 @@
+#!/bin/bash
+
+exec xmonad
+tail -f ~/.xmonad/xmonad.errors

@@ -1,0 +1,3 @@
+export JAVA_TOOL_OPTIONS='-Dfile.encoding=UTF8'
+export JAVA_OPTS='-XX:ReservedCodeCacheSize=512M -Xmx4g -Xss4M -XX:+CMSClassUnloadingEnabled  -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:MaxPermSize=128m'
+export SBT_OPTS="-XX:MaxPermSize=1024m -Xmx2G -XX:+UseConcMarkSweepGC -XX:InitialCodeCacheSize=64m -XX:ReservedCodeCacheSize=256m -XX:+CMSClassUnloadingEnabled"

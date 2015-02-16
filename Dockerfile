@@ -17,19 +17,50 @@ RUN apt-get install -y xz-utils file locales dbus-x11 pulseaudio dmz-cursor-them
       libgl1-mesa-glx libgl1-mesa-dri
 
 ADD scripts /scripts
-RUN apt-get -y install xterm
+RUN apt-get -y install rxvt-unicode mcrypt docker
 
 
-RUN useradd dev
-RUN mkdir /home/dev && chown -R dev: /home/dev
+RUN adduser dev
+RUN echo dev:dev | chpasswd
+# RUN mkdir /home/dev && chown -R dev: /home/dev
 RUN mkdir -p /home/dev/bin
 ENV PATH /home/dev/bin:$PATH
 ENV PULSE_SERVER /run/pulse/native
 WORKDIR /home/dev
 ENV HOME /home/dev
 
+ADD dotfiles/bash_profile /home/dev/.bash_profile
+ADD dotfiles/gitconfig /home/dev/.gitconfig
+
 ADD xmonad /home/dev/.xmonad
 RUN chmod 777 /home/dev/.xmonad/xmonad.hs
 
+# get sbt via non-repo non-shitty method
+# care of https://github.com/paulp/sbt-extras
+# todo: put maven cache in shared data dir
+RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /home/dev/bin/sbt \
+     && chmod 0755 /home/dev/bin/sbt
+
 RUN chown -R dev: /home/dev
+
+ADD start /start
+RUN chmod 755 /start
+
+# Create a shared data volume
+# We need to create an empty file, otherwise the volume will
+# belong to root.
+# This is probably a Docker bug.
+RUN mkdir /var/shared/
+RUN touch /var/shared/placeholder
+RUN chown -R dev:dev /var/shared
+VOLUME /var/shared
+
+
+
+
+
 USER dev
+
+ENTRYPOINT ["/start"]
+
+

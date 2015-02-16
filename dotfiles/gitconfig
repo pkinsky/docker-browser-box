@@ -1,0 +1,8 @@
+[user]
+	name = Paul Kinsky
+	email = pkinsky@gmail.com
+[push]
+	default = simple
+[core]
+	excludesfile = /home/dev/.gitignore
+	editor = /usr/bin/vim
