@@ -1,4 +1,27 @@
 #!/bin/bash
+set -e
 
-exec xmonad
-tail -f ~/.xmonad/xmonad.errors
+case "$1" in
+  install)
+    # 0. docker run --rm -v /usr/share:/target pkinsky/xmox install
+    # 1. backup xmonad.desktop if it exists
+    sudo mv /target/xsessions/xmonad.desktop /target/xsessions/xmonad.desktop.old || true
+    # 2. copy in new xmonad.desktop to /usr/share/xsessions
+    cp /home/.xmonad/xmonad.desktop /target/xsessions/
+    # 3. copy cool png badge to /usr/share/unity-greeter
+    cp ~/.xmonad/images/custom_xmonad_badge.png /target/unity-greeter/
+    ;;
+  uninstall)
+    # todo
+    ;;
+  bash)
+    # useful fallback for container diagnostics
+    exec $@
+    ;;
+  *)
+
+    # running as dev here
+    exec xmonad
+    tail -f ~/.xmonad/xmonad.errors
+    ;;
+esac
