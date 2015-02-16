@@ -17,11 +17,19 @@ RUN apt-get install -y xz-utils file locales dbus-x11 pulseaudio dmz-cursor-them
       libgl1-mesa-glx libgl1-mesa-dri
 
 ADD scripts /scripts
-ADD start /start
-RUN chmod 755 /start
-
-ADD xmonad /home/anonymous/.xmonad
 RUN apt-get -y install xterm
 
 
-ENTRYPOINT ["/start"]
+RUN useradd dev
+RUN mkdir /home/dev && chown -R dev: /home/dev
+RUN mkdir -p /home/dev/bin
+ENV PATH /home/dev/bin:$PATH
+ENV PULSE_SERVER /run/pulse/native
+WORKDIR /home/dev
+ENV HOME /home/dev
+
+ADD xmonad /home/dev/.xmonad
+RUN chmod 777 /home/dev/.xmonad/xmonad.hs
+
+RUN chown -R dev: /home/dev
+USER dev
