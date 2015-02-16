@@ -31,5 +31,5 @@ else
     --env="DISPLAY=${DISPLAY}" \
     --volume=/tmp/.X11-unix:/tmp/.X11-unix \
     --volume=/run/user/${USER_UID}/pulse:/run/pulse \
-    sameersbn/browser-box:latest $(basename $0) $@ >/dev/null
+    pkinsky/xmox:latest $(basename $0) $@
 fi

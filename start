@@ -9,8 +9,6 @@ case "$1" in
     ln -sf browser-box /target/google-chrome
     echo "Installing google-chrome-stable..."
     ln -sf browser-box /target/google-chrome-stable
-    echo "Installing tor-browser..."
-    ln -sf browser-box /target/tor-browser
     ;;
   uninstall)
     echo "Uninstalling browser-box..."
@@ -19,8 +17,6 @@ case "$1" in
     rm -rf /target/google-chrome
     echo "Uninstalling google-chrome-stable..."
     rm -rf /target/google-chrome-stable
-    echo "Uninstalling tor-browser..."
-    rm -rf /target/tor-browser
     ;;
   bash)
     exec $@
