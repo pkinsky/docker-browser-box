@@ -20,4 +20,8 @@ ADD scripts /scripts
 ADD start /start
 RUN chmod 755 /start
 
+ADD xmonad /home/anonymous/.xmonad
+RUN apt-get -y install xterm
+
+
 ENTRYPOINT ["/start"]
