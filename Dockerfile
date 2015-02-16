@@ -17,11 +17,13 @@ RUN apt-get install -y xz-utils file locales dbus-x11 pulseaudio dmz-cursor-them
       libgl1-mesa-glx libgl1-mesa-dri
 
 ADD scripts /scripts
+#can skip docker, what I need is docker.io. leaving this here to avoid rebuild
 RUN apt-get -y install rxvt-unicode mcrypt docker
 
 
 RUN adduser dev
 RUN echo dev:dev | chpasswd
+RUN adduser dev sudo
 # RUN mkdir /home/dev && chown -R dev: /home/dev
 RUN mkdir -p /home/dev/bin
 ENV PATH /home/dev/bin:$PATH
@@ -31,6 +33,7 @@ ENV HOME /home/dev
 
 ADD dotfiles/bash_profile /home/dev/.bash_profile
 ADD dotfiles/gitconfig /home/dev/.gitconfig
+
 
 ADD xmonad /home/dev/.xmonad
 RUN chmod 777 /home/dev/.xmonad/xmonad.hs
@@ -56,7 +59,9 @@ RUN chown -R dev:dev /var/shared
 VOLUME /var/shared
 
 
-
+# get spf13 vim config installed
+RUN apt-get -y install vim docker.io
+RUN curl https://j.mp/spf13-vim3 -L > spf13-vim.sh && sh spf13-vim.sh
 
 
 USER dev
